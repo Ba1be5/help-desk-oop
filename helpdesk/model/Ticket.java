@@ -6,11 +6,26 @@ public class Ticket {
     private String description;
     private TicketStatus status;
 
-    public Ticket(long id, String title, String description) {
+    private TicketPriority priority;
+    private final java.time.LocalDateTime createdAt;
+
+    public Ticket(long id, String title, String description, TicketPriority priority) {
+        if (title == null || title.isBlank()){
+            throw new IllegalArgumentException("Title cannot be null or blank");
+        }
+        this.createdAt = java.time.LocalDateTime.now();
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = TicketStatus.NEW;
+        this.priority = priority;
+    }
+    public java.time.LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public TicketPriority getPriority() {
+        return priority;
     }
 
     public long getId() {
@@ -51,5 +66,12 @@ public class Ticket {
             return;
         }
         status = TicketStatus.CLOSED;
+    }
+    public void cancel() {
+        if (status == TicketStatus.CLOSED) {
+            System.out.println("Error: cannot cancel a CLOSED ticket");
+            return;
+        }
+        status = TicketStatus.CANCELLED;
     }
 }
