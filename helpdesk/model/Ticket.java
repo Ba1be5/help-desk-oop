@@ -20,6 +20,13 @@ public class Ticket {
         this.status = TicketStatus.NEW;
         this.priority = priority;
     }
+    public void reopen() {
+        if (status != TicketStatus.RESOLVED && status != TicketStatus.CLOSED) {
+            System.out.println("Error: can only reopen a RESOLVED or CLOSED ticket");
+            return;
+        }
+        status = TicketStatus.REOPENED;
+    }
     public java.time.LocalDateTime getCreatedAt() {
         return createdAt;
     }
